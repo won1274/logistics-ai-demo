@@ -18,11 +18,13 @@ function draw1(){const svg=$('#map1');base(svg);const pl=R.plan[di];let hl=null;
   else el('circle',{cx:x,cy:y,r:k=='dest'?4:2.5,fill:on?(k=='dest'?'#1F6FB5':'#8A96A3'):'#D5DAE0'},svg);
   const as=pl.assign.find(a=>a.dest==p);if(as){const g=el('circle',{cx:x,cy:y,r:9,fill:'transparent'},svg);el('title',{},g).textContent=as.run==null?`${p}: 오늘 수송편 없음 · 다음 편 ${as.next||'노선표에 없음'}`:`${p}: ${pl.runs[as.run].name} ${as.arr} 도착${as.ret?' (복귀 편)':''}`;g.onclick=()=>{sel=as.run;render1()}}
   el('text',{x:x+6,y:y-4,'font-size':k=='hub'?13:10,'font-weight':k=='via'?'normal':'bold',fill:on?'#222':'#A0A8B0'},svg).textContent=p}}
-function render1(){const pl=R.plan[di],tb=$('#tb1');$('#dayl').textContent=pl.day+'요일';$('#head1').textContent=`오늘의 수송경로 — ${pl.day}요일 운행 편`;let h='';
- pl.runs.forEach((r,i)=>{const via=r.stops.map((s,j)=>`<span class="nw">${s[0]}${j&&r.legs[j-1].ret?'(복귀)':''}</span>`).join(' → ');h+=`<tr data-r="${i}" class="${sel===i?'sel':''}"><td class="nw">${r.name}</td><td class="nw">${r.mode=='공수'?'항공':'육로'}</td><td class="nw">${r.stops[0][0]}</td><td class="nw">${r.stops[0][2]}</td><td style="text-align:left">${via}</td><td class="nw">${r.stops.at(-1)[1]}</td></tr>`});
+function nm(n){const m=n.match(/^(\S+)\s*\((.*)\)\s*(.*)$/);return m?{a:m[1],b:(m[2]+' '+m[3]).trim()}:{a:n.replace(/\s*※.*/,''),b:(n.match(/※.*/)||[''])[0]}}
+function render1(){const pl=R.plan[di],tb=$('#tb1');$('#dayl').textContent=pl.day+'요일';$('#head1').textContent=`오늘의 수송경로 — ${pl.day}요일 운행 편`;let h='',cd='';
+ pl.runs.forEach((r,i)=>{const via=r.stops.map((s,j)=>`<span class="nw">${s[0]}${j&&r.legs[j-1].ret?'(복귀)':''}</span>`).join(' → ');const N=nm(r.name);cd+=`<div class="rc ${sel===i?'sel':''}" data-r="${i}"><div class="t"><b class="nw">${N.a}</b><span class="nw m">${r.mode=='공수'?'항공':'육로'} · ${r.stops[0][0]} 출발 ${r.stops[0][2]} → 도착 ${r.stops.at(-1)[1]}</span></div>${N.b?`<span class="sub">${N.b}</span>`:''}<div class="r">${via}</div></div>`;
+  h+=`<tr data-r="${i}" class="${sel===i?'sel':''}"><td class="nw">${N.a}${N.b?`<span class="sub">${N.b}</span>`:''}</td><td class="nw">${r.mode=='공수'?'항공':'육로'}</td><td class="nw">${r.stops[0][0]}</td><td class="nw">${r.stops[0][2]}</td><td style="text-align:left">${via}</td><td class="nw">${r.stops.at(-1)[1]}</td></tr>`});
  $('#none1').innerHTML=pl.assign.filter(a=>a.run==null).map(a=>`<span>${a.dest}: 오늘 수송편 없음 (다음 편 ${a.next||'노선표에 없음'})</span>`).join('')||'';
  $('#none1').style.display=pl.assign.some(a=>a.run==null)?'':'none';
- tb.innerHTML=h;tb.querySelectorAll('tr[data-r]').forEach(t=>t.onclick=()=>{const i=+t.dataset.r;sel=sel===i?null:i;render1()});draw1()}
+ tb.innerHTML=h;$('#cards1').innerHTML=cd;document.querySelectorAll('#tb1 tr[data-r],#cards1 .rc').forEach(t=>t.onclick=()=>{const i=+t.dataset.r;sel=sel===i?null:i;render1()});draw1()}
 function setDay(d){di=(d+5)%5;sel=null;render1()}
 $('#prev').onclick=()=>setDay(di-1);$('#next').onclick=()=>setDay(di+1);$('#today').onclick=()=>{const w=new Date().getDay();setDay(w>=1&&w<=5?w-1:0)};
 // ---------- 2

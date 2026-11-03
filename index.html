@@ -15,11 +15,11 @@ main{padding:10px}.tab{display:none}.tab.on{display:block}
 .grid{display:grid;grid-template-columns:minmax(280px,2fr) 3fr;gap:10px}@media(max-width:820px){.grid{grid-template-columns:1fr}}
 .card{background:#fff;border:1px solid #DCE3EA;border-radius:6px;padding:8px}
 svg{width:100%;height:auto;display:block}table{border-collapse:collapse;width:100%;font-size:13px}
-th{background:#DCE6F2;padding:5px;position:sticky;top:0}td{border-top:1px solid #E6EBF0;padding:5px;text-align:center}
+th{background:#DCE6F2;padding:5px;position:sticky;top:0;z-index:2}td{border-top:1px solid #E6EBF0;padding:5px;text-align:center}
 tr.sec td{background:#DCE6F2;font-weight:bold;text-align:left}tr.none td{color:#9AA0A6;background:#F3F4F6}tr.sel td{background:#FFF4D6}
 tbody tr{cursor:pointer}.why{font-size:12px;color:#7A1212;text-align:left}.scroll{max-height:70vh;overflow:auto}
 .info{background:#EEF4FB;padding:7px;border-radius:4px;margin-bottom:8px}.big{font-size:16px;font-weight:bold;margin:6px 0}.note{color:#666;font-size:12px}
-.legend{font-size:12px;display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.legend{font-size:12px;display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:4px}.legend span{white-space:nowrap}
 dialog{max-width:820px;width:94vw;max-height:86vh;border:1px solid #B8C4D0;border-radius:8px;padding:0}dialog .c{padding:12px 16px;overflow:auto;max-height:74vh}
 dialog .f{padding:8px;text-align:right;border-top:1px solid #DCE3EA}dialog table td,dialog table th{border:1px solid #ccc;text-align:left}
 td:nth-child(2),td:nth-child(3),td:nth-child(4),td:nth-child(6),th{white-space:nowrap}
@@ -27,6 +27,10 @@ table td,table th{word-break:keep-all;overflow-wrap:normal}.nw{white-space:nowra
 @media(max-width:820px){#t1 .scroll table,#t2 .scroll table,#t3 table{min-width:520px}.scroll{overflow-x:auto}}
 dialog .c{word-break:keep-all;overflow-wrap:anywhere;overflow-x:auto}dialog table{min-width:520px}
 .nosvc{margin-top:8px;color:#9AA0A6;font-size:13px;background:#F3F4F6;padding:6px;border-radius:4px}.nosvc span{display:block}
+.sub{display:block;font-size:11px;color:#7A8594;font-weight:normal}
+#cards1{display:none}.rc{border:1px solid #DCE3EA;border-radius:6px;padding:7px 9px;margin-bottom:6px;cursor:pointer;background:#fff}.rc.sel{background:#FFF4D6}
+.rc .t{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline}.rc .t b{font-size:14px}.rc .r{margin-top:4px;color:#334}.rc .m{font-size:12px;color:#556}
+@media(max-width:600px){#t1 .scroll table{display:none}#cards1{display:block}#t1 .scroll{max-height:none}}
 select,input{font:inherit;padding:4px}
 </style></head><body>
 <header><h1>물류 AI 의사결정 지원 프로그램</h1></header>
@@ -36,7 +40,7 @@ select,input{font:inherit;padding:4px}
  <div class="bar"><span>요일</span><button class="btn" id="prev" title="이전 운행일">◀</button><b id="dayl"></b><button class="btn" id="next" title="다음 운행일">▶</button><button class="btn s" id="today">오늘</button><span class="sp"></span><button class="btn s" data-x="route">ⓘ 알고리즘 설명</button></div>
  <div class="grid"><div class="card"><svg id="map1" viewBox="0 0 400 420"></svg>
   <div class="legend"><span style="color:#D9382F">★ 주요 보급기지</span><span style="color:#1F6FB5">● 수령지역</span><span style="color:#2F6DB5">━ 공수노선</span><span style="color:#E07B39">━ 육로노선</span><span style="color:#7F8C99">┈ 복귀 구간</span></div></div>
- <div class="card scroll"><div class="big" id="head1"></div><table><thead><tr><th>노선(편명)</th><th>수단</th><th>출발</th><th>출발 시각</th><th>경유/도착</th><th>도착 시각</th></tr></thead><tbody id="tb1"></tbody></table><div class="nosvc" id="none1"></div>
+ <div class="card scroll"><div class="big" id="head1"></div><table><thead><tr><th>노선(편명)</th><th>수단</th><th>출발</th><th>출발 시각</th><th>경유/도착</th><th>도착 시각</th></tr></thead><tbody id="tb1"></tbody></table><div id="cards1"></div><div class="nosvc" id="none1"></div>
  <p class="note">요일마다 실제 운행하는 공수·육로 편만 표시합니다. 행을 누르면 지도에 강조되고, 지도의 지역에 마우스를 올리면(휴대폰은 길게 누르면) 그날 도착 편을 보여 줍니다. 복귀 구간(점선)에서도 들른 곳의 물자를 다시 싣고 돌아옵니다. 격주 편은 매주 운항으로 가정.</p></div></div>
 </section>
 <section id="t2" class="tab">
@@ -56,4 +60,4 @@ select,input{font:inherit;padding:4px}
 </section>
 </main>
 <dialog id="dlg"><div class="c" id="dlgc"></div><div class="f"><button class="btn" onclick="dlg.close()">닫기</button></div></dialog>
-<script src="app.js"></script></body></html>
+<script src="app.js?v=20261103c"></script></body></html>
